@@ -1,0 +1,173 @@
+drop table "SYSTEM"."ATTRIBUTE" cascade constraints  PURGE;
+drop table "SYSTEM"."CHILDATTRIBUTES" cascade constraints  PURGE;
+drop table "SYSTEM"."DERIVINGATTRIBUTES" cascade constraints  PURGE;
+drop table "SYSTEM"."ENTITY" cascade constraints  PURGE;
+drop table "SYSTEM"."RELATIONSHIP" cascade constraints  PURGE;
+
+
+CREATE TABLE attribute (
+    id              INTEGER NOT NULL,
+    name            NVARCHAR2(255),
+    attributetype   VARCHAR2(100),
+    keytype         VARCHAR2(25),
+    entityid        INTEGER NOT NULL
+);
+
+ALTER TABLE attribute ADD CONSTRAINT attribute_pk PRIMARY KEY ( id );
+
+CREATE TABLE childattributes (
+    id                  INTEGER NOT NULL,
+    parentattributeid   INTEGER NOT NULL,
+    childattributeid    INTEGER NOT NULL
+);
+
+ALTER TABLE childattributes ADD CONSTRAINT childattributes_pk PRIMARY KEY ( id );
+
+CREATE TABLE derivingattributes (
+    id                       INTEGER NOT NULL,
+    derivingingattributeid   INTEGER NOT NULL,
+    derivedattributeid       INTEGER NOT NULL
+);
+
+ALTER TABLE derivingattributes ADD CONSTRAINT derivingattributes_pk PRIMARY KEY ( id );
+
+CREATE TABLE entity (
+    id     INTEGER NOT NULL,
+    name   NVARCHAR2(255)
+);
+
+ALTER TABLE entity ADD CONSTRAINT entity_pk PRIMARY KEY ( id );
+
+CREATE TABLE relationship (
+    id                    INTEGER NOT NULL,
+    startentity           INTEGER NOT NULL,
+    startcardinality      VARCHAR2(10),
+    relationship          VARCHAR2(255),
+    endcartinality        VARCHAR2(10),
+    endentity             INTEGER NOT NULL,
+    relationalattribute   VARCHAR2(255)
+);
+
+ALTER TABLE relationship ADD CONSTRAINT relationship_pk PRIMARY KEY ( id );
+
+ALTER TABLE attribute
+    ADD CONSTRAINT attribute_entity_fk FOREIGN KEY ( entityid )
+        REFERENCES entity ( id );
+
+ALTER TABLE childattributes
+    ADD CONSTRAINT childattributes_attribute_fk1 FOREIGN KEY ( childattributeid )
+        REFERENCES attribute ( id );
+
+ALTER TABLE childattributes
+    ADD CONSTRAINT childattributes_attribute_fk2 FOREIGN KEY ( parentattributeid )
+        REFERENCES attribute ( id );
+
+ALTER TABLE derivingattributes
+    ADD CONSTRAINT deriveattribute_attribute_fk1 FOREIGN KEY ( derivedattributeid )
+        REFERENCES attribute ( id );
+
+ALTER TABLE derivingattributes
+    ADD CONSTRAINT deriveattributes_attribute_fk2 FOREIGN KEY ( derivingingattributeid )
+        REFERENCES attribute ( id );
+
+ALTER TABLE relationship
+    ADD CONSTRAINT relationship_endentity_fk FOREIGN KEY ( endentity )
+        REFERENCES entity ( id );
+
+ALTER TABLE relationship
+    ADD CONSTRAINT relationship_startentity_fk FOREIGN KEY ( startentity )
+        REFERENCES entity ( id );
+
+
+Insert into ENTITY VALUES (1, 'Employee');
+Insert into ENTITY VALUES (2, 'Associate');
+Insert into ENTITY VALUES (3, 'TempHourly');
+Insert into ENTITY VALUES (4, 'Promotion');
+Insert into ENTITY VALUES (5, 'Contractor');
+Insert into ENTITY VALUES (6, 'Display');
+Insert into ENTITY VALUES (7, 'Store');
+Insert into ENTITY VALUES (8, 'Product');
+Insert into ENTITY VALUES (9, 'Region');
+
+Insert Into Attribute VALUES (1,'DOB','date','atomic', 1);
+Insert Into Attribute VALUES (2,'Sex','character','atomic', 1);
+Insert Into Attribute VALUES (3,'SSN','number','PRIMARY KEY', 1);
+Insert Into Attribute Values (4,'Street','string','atomic', 1);
+Insert Into Attribute Values (5,'City','string','atomic', 1);
+insert Into Attribute Values (6,'Zip','number','atomic', 1);
+Insert Into Attribute Values (7,'State','string','atomic', 1);
+Insert Into Attribute Values (8,'Fname','string','atomic', 1);
+Insert into Attribute Values (9,'Minit','character','atomic', 1);
+Insert into Attribute Values (10,'Lname','string','atomic', 1);
+Insert Into Attribute VALUES (11,'age','number','atomic', 1);
+Insert Into Attribute VALUES (12,'Salary','number','atomic', 2);
+Insert Into Attribute VALUES (13,'Aphone','number','atomic', 2);
+Insert Into Attribute VALUES (14,'AEmail','string','atomic', 2);
+Insert Into Attribute VALUES (15,'Title','string','atomic', 2);
+Insert Into Attribute VALUES (16,'JobTitle','string','atomic', 3);
+Insert Into Attribute VALUES (17,'ProName','string','PRIMARY KEY', 4);
+Insert Into Attribute VALUES (18,'StartDate','date','atomic', 4);
+Insert Into Attribute VALUES (19,'EndDate','date','atomic', 4);
+Insert Into Attribute VALUES (20,'Specialty','string','atomic', 5);
+Insert Into Attribute VALUES (21,'Aisle','number','PRIMARY KEY', 6);
+Insert Into Attribute VALUES (22,'Row','number','PRIMARY KEY', 6);
+Insert Into Attribute VALUES (23,'Section','number','PRIMARY KEY', 6);
+Insert Into Attribute VALUES (24,'Store','string','PRIMAY KEY' , 7);
+Insert Into Attribute VALUES (25,'Size','string','atomic', 7);
+Insert Into Attribute VALUES (26,'SAddress','string','atomic', 7);
+Insert Into Attribute VALUES (27,'SKU','string','PRIMARY KEY', 8);
+Insert Into Attribute VALUES (28,'PGroup','string','atomic', 8);
+Insert Into Attribute VALUES (29,'PrdName','string','atomic', 8);
+Insert Into Attribute VALUES (30,'PGroup','string','atomic', 8);
+Insert Into Attribute VALUES (31,'RName','string','PRIMARY KEY', 9);
+Insert Into Attribute VALUES (32,'Rld','number','atomic', 9);
+Insert Into Attribute VALUES (33,'Name','string','atomic',1);
+Insert Into Attribute VALUES (34,'Address','string','atomic',1);
+
+INSERT INTO CHILDATTRIBUTES VALUES (1, 33, 8);
+INSERT INTO CHILDATTRIBUTES VALUES (2, 33, 9);
+INSERT INTO CHILDATTRIBUTES VALUES (3, 33, 10);
+INSERT INTO CHILDATTRIBUTES VALUES (4, 34, 4);
+INSERT INTO CHILDATTRIBUTES VALUES (5, 34, 5);
+INSERT INTO CHILDATTRIBUTES VALUES (6, 34, 6);
+INSERT INTO CHILDATTRIBUTES VALUES (7, 34, 7);
+
+INSERT INTO DERIVINGATTRIBUTES VALUES (1, 1, 11);   
+        
+insert into relationship values(1,1,null,'disjoint',null,2,null);
+insert into relationship values(33,1,null,'disjoint',null,3,null);
+insert into relationship values(2,2,'1','hires','M',5,null);
+insert into relationship values(3,2,'1','schedules','M',6,null);
+insert into relationship values(4,2,'M','owns','N',4,null);
+insert into relationship values(5,2,'1','manages','1',7,null);
+insert into relationship values(6,2,'M','Worksin','1',7,null);
+insert into relationship values(7,2,null,'D',null,1,null);
+insert into relationship values(8,3,'M','stock','N',6,null);
+insert into relationship values(9,3,'N','builds','M',6,'date');
+insert into relationship values(10,3,'M','assignedto','1',7,null);
+insert into relationship values(11,3,null,'D',null,5,null);
+insert into relationship values(12,3,null,'D',null,1,null);
+insert into relationship values(13,3,null,'D',null,2,null);
+insert into relationship values(14,5,'M','designs','N',6,null);
+insert into relationship values(15,5,'N','workson','M',4,null);
+insert into relationship values(16,5,'M','hires','1',2,null);
+insert into relationship values(17,5,null,'D',null,3,null);
+insert into relationship values(18,6,'1','contains','M',8,null);
+insert into relationship values(19,6,'M','schedules','1',2,null);
+insert into relationship values(20,6,'M','designs','N',8,null);
+insert into relationship values(21,6,'M','builds','N',8,null);
+insert into relationship values(22,6,'M','stock','N',8,null);
+insert into relationship values(23,7,'M','Iswithin','1',9,null);
+insert into relationship values(24,7,'1','offers','M',8,null);
+insert into relationship values(25,7,'1','worksin','M',2,null);
+insert into relationship values(26,7,'1','manages','1',2,null);
+insert into relationship values(27,7,'1','assignedto','M',3,null);
+insert into relationship values(28,4,'M','workson','N',5,null);
+insert into relationship values(29,4,'N','workson','M',2,null);
+insert into relationship values(30,8,'M','contains','1',6,null);
+insert into relationship values(31,8,'M','offers','1',7,null);
+insert into relationship values(32,9,'1','offers','M',7,null);
+
+    
+
+
