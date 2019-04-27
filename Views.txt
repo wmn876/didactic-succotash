@@ -1,0 +1,19 @@
+
+DROP VIEW AttDatatype;
+DROP VIEW EntKey;
+DROP VIEW KeyAttr;
+
+CREATE VIEW AttDatatype AS
+SELECT Name, AttributeType FROM Attribute;
+
+CREATE VIEW EntKey AS
+SELECT Name FROM Attribute
+WHERE KeyType = 'PRIMARY KEY';
+
+CREATE VIEW KeyAttr AS
+SELECT A1.Name, LISTAGG(A2.Name, ',') Attributes FROM Attribute A1, Attribute A2
+WHERE A1.EntityId = A2.EntityId
+AND A1.KeyType = 'PRIMARY KEY'
+AND A2.KeyType = 'PRIMARY KEY'
+GROUP BY A1.Name;
+
