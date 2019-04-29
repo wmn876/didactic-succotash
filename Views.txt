@@ -2,6 +2,11 @@
 DROP VIEW AttDatatype;
 DROP VIEW EntKey;
 DROP VIEW KeyAttr;
+DROP VIEW All_Ents;
+DROP VIEW All_Atts;
+DROP VIEW All_Keys;
+DROP VIEW All_Rels;
+
 
 CREATE VIEW AttDatatype AS
 SELECT Name, AttributeType FROM Attribute;
@@ -17,3 +22,14 @@ AND A1.KeyType = 'PRIMARY KEY'
 AND A2.KeyType = 'PRIMARY KEY'
 GROUP BY A1.Name;
 
+CREATE VIEW All_Ents AS
+SELECT * FROM ENTITY;
+
+CREATE VIEW All_Atts AS
+SELECT * FROM Attribute;
+
+CREATE VIEW All_Keys AS
+SELECT * FROM KeyAttr;
+
+CREATE VIEW All_Rels AS
+SELECT * FROM relationship;
