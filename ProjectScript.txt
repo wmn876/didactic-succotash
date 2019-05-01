@@ -112,7 +112,7 @@ Insert Into Attribute VALUES (20,'Specialty','string','atomic', 5);
 Insert Into Attribute VALUES (21,'Aisle','number','PRIMARY KEY', 6);
 Insert Into Attribute VALUES (22,'Row','number','PRIMARY KEY', 6);
 Insert Into Attribute VALUES (23,'Section','number','PRIMARY KEY', 6);
-Insert Into Attribute VALUES (24,'Store','string','PRIMAY KEY' , 7);
+Insert Into Attribute VALUES (24,'Store#','string','PRIMARY KEY' , 7);
 Insert Into Attribute VALUES (25,'Size','string','atomic', 7);
 Insert Into Attribute VALUES (26,'SAddress','string','atomic', 7);
 Insert Into Attribute VALUES (27,'SKU','string','PRIMARY KEY', 8);

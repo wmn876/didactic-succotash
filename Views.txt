@@ -6,6 +6,9 @@ DROP VIEW All_Ents;
 DROP VIEW All_Atts;
 DROP VIEW All_Keys;
 DROP VIEW All_Rels;
+DROP VIEW EntAtt;
+DROP VIEW RelEnt;
+DROP VIEW RelAtt;
 
 
 CREATE VIEW AttDatatype AS
@@ -23,13 +26,30 @@ AND A2.KeyType = 'PRIMARY KEY'
 GROUP BY A1.Name;
 
 CREATE VIEW All_Ents AS
-SELECT * FROM ENTITY;
+SELECT Name FROM ENTITY;
 
 CREATE VIEW All_Atts AS
-SELECT * FROM Attribute;
+SELECT Name FROM Attribute;
 
 CREATE VIEW All_Keys AS
-SELECT * FROM KeyAttr;
+SELECT Name FROM KeyAttr;
 
 CREATE VIEW All_Rels AS
-SELECT * FROM relationship;
+SELECT DISTINCT(Relationship) FROM relationship;
+
+Create view entAtt as
+Select entity.name,attribute
+From entity, attribute
+Where entity.id=attribute.entityid
+Order by entity.name;
+
+create view Rel-Ent As
+Select entity.name,startentityname,start cardinality,relationship,startentity.name,endentity
+From Relationship,entity
+Where relationship.startentity=entityId and relationship.endentity=entity.id;
+
+Create view RelATT AS
+Select relationship, relationship.relationshipAttribute
+From Relationship
+Where relationshipAttribute is null;
+
