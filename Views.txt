@@ -37,19 +37,22 @@ SELECT Name FROM KeyAttr;
 CREATE VIEW All_Rels AS
 SELECT DISTINCT(Relationship) FROM relationship;
 
-Create view entAtt as
-Select entity.name,attribute
-From entity, attribute
-Where entity.id=attribute.entityid
-Order by entity.name;
+CREATE VIEW ENTATT AS
+SELECT e.Name EntityName ,a.Name AttributeName
+FROM Entity e, Attribute a 
+WHERE e.Id = a.Entityid;
 
-create view Rel-Ent As
-Select entity.name,startentityname,start cardinality,relationship,startentity.name,endentity
-From Relationship,entity
-Where relationship.startentity=entityId and relationship.endentity=entity.id;
+CREATE VIEW RELENT AS
+SELECT R.Relationship, E1.Name Entity1, E2.Name Entity2 
+FROM Relationship R, Entity E1, Entity E2
+WHERE R.StartEntity = E1.Id
+AND R.EndEntity = E2.Id;
 
-Create view RelATT AS
-Select relationship, relationship.relationshipAttribute
-From Relationship
-Where relationshipAttribute is null;
+CREATE VIEW RELATT AS
+SELECT Relationship, RelationalAttribute 
+FROM Relationship
+WHERE RelationalAttribute IS NOT NULL;
+
+
+
 
