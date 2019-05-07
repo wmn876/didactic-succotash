@@ -1,8 +1,8 @@
-drop table "SYSTEM"."ATTRIBUTE" cascade constraints  PURGE;
-drop table "SYSTEM"."CHILDATTRIBUTES" cascade constraints  PURGE;
-drop table "SYSTEM"."DERIVINGATTRIBUTES" cascade constraints  PURGE;
-drop table "SYSTEM"."ENTITY" cascade constraints  PURGE;
-drop table "SYSTEM"."RELATIONSHIP" cascade constraints  PURGE;
+drop table "ATTRIBUTE" cascade constraints  PURGE;
+drop table "CHILDATTRIBUTES" cascade constraints  PURGE;
+drop table "DERIVINGATTRIBUTES" cascade constraints  PURGE;
+drop table "ENTITY" cascade constraints  PURGE;
+drop table "RELATIONSHIP" cascade constraints  PURGE;
 
 
 CREATE TABLE attribute (
