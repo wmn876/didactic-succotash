@@ -1,0 +1,43 @@
+
+-- Session 1.
+DECLARE
+    dl1 NVARCHAR2(255 CHAR);
+    dl2 NVARCHAR2(255 CHAR);
+
+BEGIN
+    SELECT Name INTO dl1
+    FROM ENTITY
+    WHERE Name = 'Employee'
+    FOR UPDATE;
+ 
+    DBMS_LOCK.sleep(15);
+
+    SELECT Name INTO dl2
+    FROM ATTRIBUTE
+    WHERE Name = 'SSN'
+    FOR UPDATE;
+
+    ROLLBACK;
+END;
+
+
+-- Session 2.
+DECLARE
+    dl1 NVARCHAR2(255 CHAR);
+    dl2 NVARCHAR2(255 CHAR);
+
+BEGIN
+    SELECT Name INTO dl2
+    FROM ATTRIBUTE
+    WHERE Name = 'SSN'
+    FOR UPDATE;
+ 
+    DBMS_LOCK.sleep(15);
+
+    SELECT Name INTO dl1
+    FROM ENTITY
+    WHERE Name = 'Employee'
+    FOR UPDATE;
+
+    ROLLBACK;
+END;
