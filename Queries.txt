@@ -1,0 +1,9 @@
+
+-- 24
+
+SELECT E.Name FROM ENTITY E, ATTRIBUTE A
+WHERE E.Id = A.EntityId
+GROUP BY E.Name HAVING COUNT(A.Id) = 3;
+
+
+
