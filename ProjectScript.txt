@@ -25,7 +25,7 @@ ALTER TABLE childattributes ADD CONSTRAINT childattributes_pk PRIMARY KEY ( id )
 
 CREATE TABLE derivingattributes (
     id                       INTEGER NOT NULL,
-    derivingingattributeid   INTEGER NOT NULL,
+    derivingattributeid      INTEGER NOT NULL,
     derivedattributeid       INTEGER NOT NULL
 );
 
@@ -67,7 +67,7 @@ ALTER TABLE derivingattributes
         REFERENCES attribute ( id );
 
 ALTER TABLE derivingattributes
-    ADD CONSTRAINT deriveattributes_attribute_fk2 FOREIGN KEY ( derivingingattributeid )
+    ADD CONSTRAINT deriveattributes_attribute_fk2 FOREIGN KEY ( derivingattributeid )
         REFERENCES attribute ( id );
 
 ALTER TABLE relationship
@@ -133,30 +133,19 @@ INSERT INTO CHILDATTRIBUTES VALUES (7, 34, 7);
 
 INSERT INTO DERIVINGATTRIBUTES VALUES (1, 1, 11);   
         
-insert into relationship values(1,1,null,'disjoint',null,2,null);
-insert into relationship values(33,1,null,'disjoint',null,3,null);
+insert into relationship values(1,1,null,'D',null,2,null);
+insert into relationship values(33,1,null,'D',null,3,null);
 insert into relationship values(2,2,'1','hires','M',5,null);
 insert into relationship values(4,2,'M','owns','N',4,null);
 insert into relationship values(6,2,'M','Worksin','1',7,null);
-insert into relationship values(7,2,null,'D',null,1,null);
 insert into relationship values(8,3,'M','stock','N',6,null);
 insert into relationship values(9,3,'N','builds','M',6,'date');
 insert into relationship values(11,3,null,'D',null,5,null);
-insert into relationship values(12,3,null,'D',null,1,null);
-insert into relationship values(13,3,null,'D',null,2,null);
 insert into relationship values(14,5,'M','designs','N',6,null);
-insert into relationship values(15,5,'N','workson','M',4,null);
-insert into relationship values(16,5,'M','hires','1',2,null);
-insert into relationship values(17,5,null,'D',null,3,null);
-insert into relationship values(19,6,'M','schedules','1',2,null);
-insert into relationship values(20,6,'M','designs','N',8,null);
-insert into relationship values(21,6,'M','builds','N',8,null);
-insert into relationship values(22,6,'M','stock','N',8,null);
+insert into relationship values(15,4,'N','workson','M',5,null);
+insert into relationship values(19,2,'M','schedules','1',6,null);
 insert into relationship values(23,7,'M','Iswithin','1',9,null);
-insert into relationship values(25,7,'1','worksin','M',2,null);
-insert into relationship values(26,7,'1','manages','1',2,null);
-insert into relationship values(27,7,'1','assignedto','M',3,null);
-insert into relationship values(28,4,'M','workson','N',5,null);
-insert into relationship values(30,8,'M','contains','1',6,null);
-insert into relationship values(31,8,'M','offers','1',7,null);
-insert into relationship values(32,9,'1','offers','M',7,null);
+insert into relationship values(26,2,'1','manages','1',7,null);
+insert into relationship values(27,3,'1','assignedto','M',7,null);
+insert into relationship values(30,6,'M','contains','1',8,null);
+insert into relationship values(31,7,'M','offers','1',8,null);

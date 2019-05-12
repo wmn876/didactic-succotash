@@ -95,11 +95,53 @@ WHERE name = 'Store'
 OR name = 'Region';
 
 
+--22
+
+SELECT E1.Name FROM RELATIONSHIP R, ENTITY E1, ENTITY E2
+WHERE (R.StartEntity = 8 OR R.EndEntity = 8)
+AND (R.StartEntity = E1.Id OR R.StartEntity = E2.Id)
+AND (R.EndEntity = E1.Id OR R.EndEntity = E2.Id)
+AND E1.Name <> 'Product'
+
+
 -- 24
 
 SELECT E.Name FROM ENTITY E, ATTRIBUTE A
 WHERE E.Id = A.EntityId
 GROUP BY E.Name HAVING COUNT(A.Id) = 3;
+
+
+-- 25
+
+SELECT A2.Name CompositeAttribute, A1.Name || ', ' || A2.Name Attributes FROM DERIVINGATTRIBUTES D, ATTRIBUTE A1, ATTRIBUTE A2
+WHERE A1.Id = D.DerivingAttributeId
+AND A2.Id = D.DerivedAttributeId
+
+
+-- 26
+
+SELECT E1.Name Parent, E2.Name Child FROM ENTITY E1, ENTITY E2, RELATIONSHIP R
+WHERE (R.Relationship = 'D'
+OR R.Relationship = 'disjoint')
+AND E1.Id = R.StartEntity
+AND E2.Id = R.EndEntity;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
