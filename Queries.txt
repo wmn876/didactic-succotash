@@ -1,4 +1,104 @@
 
+-- 1
+
+SELECT name
+FROM Entity;
+
+
+-- 2
+
+SELECT name
+FROM Attribute;
+
+
+-- 5
+
+SELECT relationship AS "Relation"
+FROM relationship
+WHERE startcardinality='1'
+AND endcartinality='1';
+
+
+-- 6
+
+SELECT relationship AS "Relation"
+FROM relationship
+WHERE startcardinality='1'
+AND endcartinality='M';
+
+
+-- 7
+
+SELECT relationship AS "Relation"
+FROM relationship
+WHERE startcardinality='M'
+AND endcartinality='N'
+
+
+-- 8
+
+SELECT relationship.relationship, entity.name
+FROM relationship, entity
+WHERE relationship.id = entity.id
+
+
+-- 9
+
+// ( not working I could not find why)
+
+SELECT relationship
+FROM relationship
+WHERE relationship NOT IN (SELECT relationship.relationship
+FROM relationship, attribute
+WHERE relationship.id = attribute.id
+
+
+-- 10
+
+SELECT entity.name AS supertype
+FROM entity e, entity en, relationship r
+WHERE entity.id = relationship .fromentity
+AND entity.id = r.toentity
+AND relationship,name = 'D';
+
+
+-- 14
+
+SELECT name, attributetype
+FROM attribute;
+
+
+-- 16
+
+SELECT name
+FROM attribute
+WHERE attributetype = 'date';
+
+
+-- 17
+
+-- (Not working, I could not find why)
+
+SELECT name
+FROM attribute,entity
+WHERE entity.id = attribute.id
+
+
+-- 18
+
+SELECT name
+FROM relationship, attribute
+WHERE relationship.id = attribute.id
+
+
+-- 21
+
+SELECT name
+FROM entity
+WHERE name = 'Store'
+OR name = 'Region';
+
+
 -- 24
 
 SELECT E.Name FROM ENTITY E, ATTRIBUTE A
