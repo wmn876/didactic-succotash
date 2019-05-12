@@ -32,34 +32,32 @@ AND endcartinality='M';
 SELECT relationship AS "Relation"
 FROM relationship
 WHERE startcardinality='M'
-AND endcartinality='N'
+AND endcartinality='N';
 
 
 -- 8
 
 SELECT relationship.relationship, entity.name
 FROM relationship, entity
-WHERE relationship.id = entity.id
+WHERE relationship.id = entity.id;
 
 
 -- 9
-
-// ( not working I could not find why)
 
 SELECT relationship
 FROM relationship
 WHERE relationship NOT IN (SELECT relationship.relationship
 FROM relationship, attribute
-WHERE relationship.id = attribute.id
+WHERE relationship.id = attribute.id);
 
 
 -- 10
 
-SELECT entity.name AS supertype
+SELECT e.name SuperType
 FROM entity e, entity en, relationship r
-WHERE entity.id = relationship .fromentity
-AND entity.id = r.toentity
-AND relationship,name = 'D';
+WHERE e.id = r.startentity
+AND en.id = r.endentity
+AND r.relationship = 'D';
 
 
 -- 14
@@ -77,18 +75,16 @@ WHERE attributetype = 'date';
 
 -- 17
 
--- (Not working, I could not find why)
-
-SELECT name
+SELECT attribute.name
 FROM attribute,entity
-WHERE entity.id = attribute.id
+WHERE entity.id = attribute.id;
 
 
 -- 18
 
 SELECT name
 FROM relationship, attribute
-WHERE relationship.id = attribute.id
+WHERE relationship.id = attribute.id;
 
 
 -- 21
