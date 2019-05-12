@@ -60,10 +60,41 @@ AND en.id = r.endentity
 AND r.relationship = 'D';
 
 
+-- 11
+
+SELECT E1.Name Entity, E2.Name SubType FROM ENTITY E1, ENTITY E2, RELATIONSHIP R
+WHERE E1.Id = R.StartEntity
+AND E2.Id = R.EndEntity
+AND R.Relationship IN ('D','contains','Iswithin');
+
+
+-- 12
+
+SELECT E.Name Entity, A.Name Attribute FROM ENTITY E, ATTRIBUTE A
+WHERE A.EntityId = E.Id
+AND A.keytype = 'PRIMARY KEY';
+
+
+-- 13
+
+SELECT Name FROM ENTITY
+WHERE Id NOT IN
+(SELECT E.Id FROM ENTITY E, ATTRIBUTE A
+WHERE A.EntityId = E.Id
+AND A.keytype = 'PRIMARY KEY');
+
+
 -- 14
 
 SELECT name, attributetype
 FROM attribute;
+
+
+--15
+
+SELECT A2.Name DerivedAttribute, A1.Name || ', ' || A2.Name Attributes FROM DERIVINGATTRIBUTES D, ATTRIBUTE A1, ATTRIBUTE A2
+WHERE A1.Id = D.DerivingAttributeId
+AND A2.Id = D.DerivedAttributeId;
 
 
 -- 16
@@ -87,6 +118,30 @@ FROM relationship, attribute
 WHERE relationship.id = attribute.id;
 
 
+-- 19
+
+SELECT Name FROM ENTITY E
+JOIN 
+(SELECT R.StartEntity, R.EndEntity, COUNT(R.Id) FROM RELATIONSHIP R
+WHERE R.StartEntity = (SELECT Id FROM ENTITY WHERE Name = 'TempHourly')
+OR R.EndEntity = (SELECT Id FROM ENTITY WHERE Name = 'TempHourly')
+GROUP BY R.StartEntity, R.EndEntity HAVING COUNT(R.Id) = 1) temp
+ON temp.EndEntity = E.Id OR temp.StartEntity = E.Id
+WHERE Name <> 'TempHourly';
+
+
+-- 20
+
+SELECT Name FROM ENTITY E
+JOIN 
+(SELECT R.StartEntity, R.EndEntity, COUNT(R.Id) FROM RELATIONSHIP R
+WHERE R.StartEntity = (SELECT Id FROM ENTITY WHERE Name = 'TempHourly')
+OR R.EndEntity = (SELECT Id FROM ENTITY WHERE Name = 'TempHourly')
+GROUP BY R.StartEntity, R.EndEntity HAVING COUNT(R.Id) = 2) temp
+ON temp.EndEntity = E.Id OR temp.StartEntity = E.Id
+WHERE Name <> 'TempHourly';
+
+
 -- 21
 
 SELECT name
@@ -101,7 +156,16 @@ SELECT E1.Name FROM RELATIONSHIP R, ENTITY E1, ENTITY E2
 WHERE (R.StartEntity = 8 OR R.EndEntity = 8)
 AND (R.StartEntity = E1.Id OR R.StartEntity = E2.Id)
 AND (R.EndEntity = E1.Id OR R.EndEntity = E2.Id)
-AND E1.Name <> 'Product'
+AND E1.Name <> 'Product';
+
+
+-- 23
+
+SELECT E2.Name SubType FROM ENTITY E1, ENTITY E2, RELATIONSHIP R
+WHERE E1.Id = R.StartEntity
+AND E2.Id = R.EndEntity
+AND R.Relationship IN ('D')
+AND E1.Name = 'Employee';
 
 
 -- 24
@@ -113,23 +177,22 @@ GROUP BY E.Name HAVING COUNT(A.Id) = 3;
 
 -- 25
 
-SELECT A2.Name CompositeAttribute, A1.Name || ', ' || A2.Name Attributes FROM DERIVINGATTRIBUTES D, ATTRIBUTE A1, ATTRIBUTE A2
-WHERE A1.Id = D.DerivingAttributeId
-AND A2.Id = D.DerivedAttributeId
+SELECT Attributes CompositeAttribute, Name ContainedAttribute FROM KeyAttr;
 
 
 -- 26
 
 SELECT E1.Name Parent, E2.Name Child FROM ENTITY E1, ENTITY E2, RELATIONSHIP R
-WHERE (R.Relationship = 'D'
-OR R.Relationship = 'disjoint')
+WHERE R.Relationship = 'D'
 AND E1.Id = R.StartEntity
 AND E2.Id = R.EndEntity;
 
 
+-- 27
 
-
-
+SELECT E.Name TableName, LISTAGG(A.Name, ', ') AS ColumnNames FROM ENTITY E, ATTRIBUTE A
+WHERE E.Id = A.EntityId
+GROUP BY E.Name;
 
 
 

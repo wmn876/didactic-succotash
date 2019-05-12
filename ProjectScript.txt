@@ -144,7 +144,7 @@ insert into relationship values(11,3,null,'D',null,5,null);
 insert into relationship values(14,5,'M','designs','N',6,null);
 insert into relationship values(15,4,'N','workson','M',5,null);
 insert into relationship values(19,2,'M','schedules','1',6,null);
-insert into relationship values(23,7,'M','Iswithin','1',9,null);
+insert into relationship values(23,9,'M','Iswithin','1',7,null);
 insert into relationship values(26,2,'1','manages','1',7,null);
 insert into relationship values(27,3,'1','assignedto','M',7,null);
 insert into relationship values(30,6,'M','contains','1',8,null);
