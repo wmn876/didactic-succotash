@@ -43,7 +43,7 @@ CREATE TABLE relationship (
     startentity           INTEGER NOT NULL,
     startcardinality      VARCHAR2(10),
     relationship          VARCHAR2(255),
-    endcartinality        VARCHAR2(10),
+    endcardinality        VARCHAR2(10),
     endentity             INTEGER NOT NULL,
     relationalattribute   VARCHAR2(255)
 );
